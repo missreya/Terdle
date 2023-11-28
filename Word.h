@@ -8,22 +8,25 @@ using namespace std;
 class Word {
     public:
         string answer;
-        string guess;
-        void PrintResult() const;
+        string newGuess;
+
         Word();
         Word(string answer);
+        void RequestGuess();
+        void ProcessGuess(string guess);
 
-    // private:
         struct LetterMap {
             string mapKey;
             char mapValue;
         };
 
-        LetterMap map[3] = {
-            {"incorrect",   '-'},
-            {"partial",     'x'},
-            {"correct",    'O'}
+        struct guessMap {
+            string guess;
+            string guessLayout;
+            string guessMap;
         };
+        
+        vector<guessMap> guessList;
 };
 
 #endif
