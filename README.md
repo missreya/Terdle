@@ -9,12 +9,12 @@ or pre-shuffled https://github.com/tabatkins/wordle-list
 List of solutions here: https://github.com/vallleyyy/WordleDictionary
 
 # REMAINING TO-DO
-Word::ProcessGuess
+Guess::ProcessGuess
 - complexity rules with repeated letters 
 
-Menu
+Wordle
 - make a request to play again
+- use better cstream for formatting
 
 Main
-- try throw catch exception for the files
 - menuRequest currently everything else but start will exit

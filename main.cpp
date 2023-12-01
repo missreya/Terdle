@@ -17,7 +17,6 @@ void menuRequest(vector<string> &solutionList, const vector<string> &legalList);
 
 // Begin main()
 int main() {
-
     // Load the solution word list - if failure, terminate program
     vector<string> solutionList = loadWordList("wordle-solutions.txt");
     vector<string> legalList = loadWordList("legal-words.txt");
@@ -33,7 +32,7 @@ int main() {
 
 } //end main
 
-// Generates vector of potential word solutions from input file
+// Generates vector of words from input file
 vector<string> loadWordList(string fileName) {
     vector<string> wordVect;
     ifstream file;
@@ -43,14 +42,14 @@ vector<string> loadWordList(string fileName) {
         file.open(fileName); //open file for reading (not for writing)
 
         if (!file.is_open()) {
-            throw fileName;
+            throw fileName; // file was unable to be opened
         }
 
         while (file) {
-        string word;
-        file >> word;
-        wordVect.push_back(word);
-    }
+            string word;
+            file >> word;
+            wordVect.push_back(word);
+        }
     }
     catch (string fileName) {
         cout << "ERROR: Could not open " << fileName << " - please ensure this file is in the directory.\nEXITING...";
@@ -61,8 +60,8 @@ vector<string> loadWordList(string fileName) {
 }
 
 void PrintMainMenu() {
-    // // CSI[2J clears screen, CSI[H moves the cursor to top-left corner
-    // std::cout << "\x1B[2J\x1B[H";
+    // Essentially clears the screen - CSI[2J clears screen, CSI[H moves the cursor to top-left corner
+    std::cout << "\x1B[2J\x1B[H";
 
     cout << "Welcome to T-E-R-D-L-E, the Wordle game played on a Terminal!\n";
     cout << "\tStart: enter s or start\n";
@@ -105,9 +104,9 @@ void menuRequest(vector<string> &solutionList, const vector<string> &legalList) 
         PrintPlayAgainMenu();
         menuRequest(solutionList, legalList);
 
-    }
+    } 
     else if (tolower(userMenuSelection.at(0)) == 'q') {
         cout << "Thanks for playing!\n";
         return;
-    }
+    } 
 }

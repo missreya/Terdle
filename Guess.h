@@ -15,6 +15,9 @@ class Guess {
             string mapKey;
             char mapValue;
         };
+    
+    private:
+        string convertToLowerCase(string word);
 };
 
 #endif
