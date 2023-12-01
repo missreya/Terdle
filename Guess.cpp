@@ -3,6 +3,7 @@
 #include <iostream>
 #include <iomanip> 
 #include <cstring>
+#include <algorithm>
 
 using namespace std;
 
@@ -16,17 +17,14 @@ string Guess::RequestGuess(const vector<string> &legalWords) {
     string newGuess;
     cout << "Your guess: ";
     cin >> newGuess;
+    bool validWord = (find(legalWords.begin(), legalWords.end(), newGuess) != legalWords.end());
 
-    while (newGuess.size() != 5) {
-        cout << "Guess must be 5 letters long. Please re-enter guess.\n";
+    // Validate that the guess is 5 letters long and is a valid word
+    while((newGuess.size() != 5) || (!validWord)) {
+        cout << "Guess must be a valid word that is 5 letters long. Please re-enter guess.\n";
         cin >> newGuess;
+        validWord = (find(legalWords.begin(), legalWords.end(), newGuess) != legalWords.end());
     }
-
-    // Splitting the vector into halves for more efficient looping 
-    // int lowerIt = lower_bound(legalWords.begin(), legalWords.end(), key);
-    // int upperIt = upper_bound(legalWords.begin(), legalWords.end(), key);
-
-    // for (auto it = lowerIt; it != upperIt; ++it)
 
     return newGuess;
 }
@@ -43,7 +41,6 @@ Wordle::guessMap Guess::ProcessGuess(string newGuess, const string answer) {
     // Check if the guess is a perfect match to the answer
     if(strcmp(newGuess.c_str(), answer.c_str())==0) {
         newGuessMap = "#####";
-        cout << "perfect match!\n";
     }
     // Otherwise, compare every letter to develop the guess-map 
     else {
@@ -64,8 +61,6 @@ Wordle::guessMap Guess::ProcessGuess(string newGuess, const string answer) {
             newGuessMap += map[checker].mapValue;
         }
     }
-
-    // cout << "newGuess: \t" << newGuess << "\nguessMap: \t" << newGuessMap;
 
     // Return the guess with its processed accuracy mapping
     return {newGuess, newGuessMap};
