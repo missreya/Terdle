@@ -20,8 +20,8 @@ string Guess::RequestGuess(const vector<string> &legalWords) {
     bool validWord = (find(legalWords.begin(), legalWords.end(), newGuess) != legalWords.end());
 
     // Validate that the guess is 5 letters long and is a valid word
-    while((newGuess.size() != 5) || (!validWord)) {
-        cout << "Guess must be a valid word that is 5 letters long. Please re-enter guess.\n";
+    while((!validWord)) {
+        cout << "Guess must be a valid 5 letter word. Please re-enter guess.\n";
         cin >> newGuess;
         validWord = (find(legalWords.begin(), legalWords.end(), newGuess) != legalWords.end());
     }

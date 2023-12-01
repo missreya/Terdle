@@ -9,43 +9,25 @@
 using namespace std;
 
 //Declare Functions
-void PrintMainMenu();
 vector<string> loadWordList(string fileName);
-string selectAnswer(vector<string> &wordVect, vector<string> &usedWords);
+void PrintMainMenu();
+string SelectAnswer(vector<string> &solutionList);
+void PrintPlayAgainMenu();
+void menuRequest(vector<string> &solutionList, const vector<string> &legalList);
 
 // Begin main()
 int main() {
 
     // Load the solution word list - if failure, terminate program
-    vector<string> usedWords;
     vector<string> solutionList = loadWordList("wordle-solutions.txt");
     vector<string> legalList = loadWordList("legal-words.txt");
-
-    if ((solutionList.at(0) == "ERROR") || (legalList.at(0) == "ERROR")) {
-        cout << "EXITING...";
-        return 1;
-    }
 
     // cout << "solutionList size is: " << solutionList.size() << endl;
     // cout << "guessList size is: " << legalList.size() << endl;
 
-    // Print menu
+    // Print menu and request user input if they would like to start a game
     PrintMainMenu();
-
-    // Get user input on if they would like to start a game
-    string userMenuSelection;
-    cin >> userMenuSelection;
-
-    if (tolower(userMenuSelection.at(0)) == 's') {
-        // Begin Game
-        string newAnswer = selectAnswer(solutionList, usedWords);
-        Wordle myGame;
-        myGame.Play(newAnswer, legalList);
-    }
-    else if (tolower(userMenuSelection.at(0)) == 'q') {
-        cout << "Thanks for playing!\n";
-        return 2;
-    }
+    menuRequest(solutionList, legalList);
 
     return 0;
 
@@ -57,21 +39,23 @@ vector<string> loadWordList(string fileName) {
     ifstream file;
     int index = 0;
 
-    file.open(fileName); //open file for reading (not for writing)
+    try {
+        file.open(fileName); //open file for reading (not for writing)
 
-    if (!file.is_open()) {
-        cout << "ERROR: Could not open " << fileName << " - please ensure this file is in the directory.\n";
-        wordVect.push_back("ERROR");
-        return wordVect;
-    }
+        if (!file.is_open()) {
+            throw fileName;
+        }
 
-    while (file) {
+        while (file) {
         string word;
         file >> word;
         wordVect.push_back(word);
     }
-
-    // cout << "Finished loading " << fileName << endl;
+    }
+    catch (string fileName) {
+        cout << "ERROR: Could not open " << fileName << " - please ensure this file is in the directory.\nEXITING...";
+        exit(0);
+    }
     
     return wordVect;
 }
@@ -85,8 +69,14 @@ void PrintMainMenu() {
     cout << "\tQuit: enter q or quit\n";
 }
 
+void PrintPlayAgainMenu() {
+    cout << "Would you like to play again?\n";
+    cout << "\tStart: enter s or start\n";
+    cout << "\tQuit: enter q or quit\n";
+}
+
 // Chooses the new word - passes by ref for memory efficiency of vectors
-string selectAnswer(vector<string>& solutionList, vector<string>& usedWords) {
+string SelectAnswer(vector<string>& solutionList) {
     string newAnswer;
     srand(time(0));
     rand(); //discarding the first rand because this first num is less random (due to the time)
@@ -94,10 +84,30 @@ string selectAnswer(vector<string>& solutionList, vector<string>& usedWords) {
     int newIndex = rand() % maxRange;
     newAnswer = solutionList.at(newIndex);
 
-    // Add this word to the used word vector list
-    usedWords.push_back(newAnswer);
-
-    cout << "newIndex: " << newIndex << " New word: " << newAnswer << endl;
+    // Removing this word from solution list so that it cannot be chosen in subsequent games this session
+    solutionList.erase(solutionList.begin() + newIndex);
 
     return newAnswer;
+}
+
+void menuRequest(vector<string> &solutionList, const vector<string> &legalList) {
+    // Get user input on if they would like to start a game
+    string userMenuSelection;
+    cin >> userMenuSelection;
+
+    if (tolower(userMenuSelection.at(0)) == 's') {
+        // Begin Game
+        string newAnswer = SelectAnswer(solutionList);
+        Wordle myGame;
+        myGame.Play(newAnswer, legalList);
+
+        // Check if user would like to play again
+        PrintPlayAgainMenu();
+        menuRequest(solutionList, legalList);
+
+    }
+    else if (tolower(userMenuSelection.at(0)) == 'q') {
+        cout << "Thanks for playing!\n";
+        return;
+    }
 }

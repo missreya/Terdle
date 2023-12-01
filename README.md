@@ -10,22 +10,11 @@ List of solutions here: https://github.com/vallleyyy/WordleDictionary
 
 # REMAINING TO-DO
 Word::ProcessGuess
-- complexity rules with repeated letters in guess
-- complexity rules with repeated letters in solution
-
-Word::RequestGuess
-- checker that the guess is in the legal word list
-- turn cin into a getline 
-
-Menu::Start
-- continue to request guesses until game is won OR guesslist is size 6
+- complexity rules with repeated letters 
 
 Menu
-- make Menu::PrintGame - properly print out the guess + guessMap with stream
-- make a win screen
-- make a lose screen
 - make a request to play again
 
 Main
 - try throw catch exception for the files
-- check that the selected solution is not in the usedWords list
+- menuRequest currently everything else but start will exit

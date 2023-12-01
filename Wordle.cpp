@@ -21,28 +21,33 @@ void Wordle::StartScreen() {
 }
 
 void Wordle::Play(const string solution, const vector<string>& legalList) {
-    
+    this->solution = solution;
     Guess myGuess;
+    PrintGuesses();
 
     // Request a guess from the user if there are there are 5 or less guesses so far
     while ((guessList.size() <=5)) {
         string userGuess = myGuess.RequestGuess(legalList);   
-
         guessList.push_back(myGuess.ProcessGuess(userGuess, solution));
 
         PrintGuesses();
 
         if (guessList.back().guessMap == "#####") {
-            cout << "VICTORY!!!\n";
+            cout << "\n* * * * * * * * * * * *\n";
+            cout << "* *     VICTORY     * *";
+            cout << "\n* * * * * * * * * * * *\n";
             return;
         }
     }
-    cout << "Saad :( \n";
+    cout << "\n* * * * * * * * * * * *\n";
+    cout << "Sorry, better luck next time!\n";
+    cout << "\n* * * * * * * * * * * *\n";
     return;
 }
 
 void Wordle::PrintGuesses() {
     ClearScreen();
+    cout << "answer is: " << solution << endl;
 
     cout << " - - - T-E-R-D-L-E - - - \n";
 
