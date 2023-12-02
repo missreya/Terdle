@@ -52,11 +52,19 @@ Terdle::guessMap Guess::ProcessGuess(string newGuess, const string answer) {
     else {
         for (int i = 0; i < newGuess.size(); i++) {
             int checker = 0;
-            duplicateLetters answerDupes = findDupCharLocation(answer, newGuess.at(i));
-            duplicateLetters guessDupes = findDupCharLocation(newGuess, newGuess.at(i));
+            vector<int> answerDupes = findDupCharLocation(answer, newGuess.at(i));
+            vector<int> guessDupes = findDupCharLocation(newGuess, newGuess.at(i));
 
+            // If one word has any dupes of this letter AND the other has 3 or more dups of same letter
+            // solve in a second pass through
+            // ex: answer = liege and guess = eerie OR answer = eerie and guess = liege
+            if (((answerDupes.size() != 1) && (guessDupes.size()) >= 3)
+                || ((guessDupes.size() != 1) && (answerDupes.size()) >= 3)) {
+                newGuessMap += '?';
+                continue;
+            }
             // below works for if there are only max 2 of a letter for both answer and guess
-            if ((answerDupes.indexes.size() < 3) && (guessDupes.indexes.size() < 3)) {
+            else {
                 for (int j = 0; j < answer.size(); j++) {
                     // if matched letter and index, mark as (green) 
                     if ((newGuess.at(i) == answer.at(j)) && (i == j)) {
@@ -118,9 +126,60 @@ Terdle::guessMap Guess::ProcessGuess(string newGuess, const string answer) {
                 // Add the map accuracy to the guess map
                 newGuessMap += map[checker].mapValue;
             }
-            // the answer has more than 3 of this letter in it
-            else if ((answerDupes.indexes.size() > 2)) {
-                cout << "nope\n";
+        }
+    }
+
+    // // Check for '?' duplicate markers
+    for (int i = 0; i < newGuessMap.size(); i++) {
+        if (newGuessMap.at(i) == '?') {
+            cout << "duplicate pass\n";
+            vector<int> answerDupes = findDupCharLocation(answer, newGuess.at(i));
+            vector<int> guessDupes = findDupCharLocation(newGuess, newGuess.at(i));
+
+            vector<char> matchVect;
+
+            // Check every guessDupes.index value to see if it matches that of the answerDupes.index
+            // Populate matchVect with the guessmap equaivalent for each guess letter dup
+            // ex. if answer = liege and guess = eerie 
+            // answerDupes.index = {2, 4} and guessDupes.indexes = {0, 1, 4}
+            // then matchVect = {+, +, #}
+            for (int j = 0; j < guessDupes.size(); j++) {
+                if ((find(answerDupes.begin(), answerDupes.end(), guessDupes.at(j) ) != answerDupes.end())) {
+                    matchVect.push_back('#');
+                }
+                else {
+                    matchVect.push_back('+');
+                }
+            }
+
+            // If guess dups is larger than answer dups, then we need to convert the yellow + to grey _, with priority starting from the back
+            // ex. if answer = liege and guess = eerie 
+            // hence answerDupes.index = {2, 4} and guessDupes.indexes = {0, 1, 4}
+            // then matchVect = {+, +, #} ----> matchVect = {+, _, #}
+            if (guessDupes.size() > answerDupes.size()) {
+                int removeNum = guessDupes.size() - answerDupes.size();
+                while (removeNum > 0) {
+                    for (int index = matchVect.size() - 1 ; index >= 0; index--) {
+                        if (matchVect.at(index) == '+') {
+                            matchVect.at(index) = '_';
+                            removeNum--;
+                        }
+                        if (removeNum == 0) {
+                            break;
+                        }
+                    }
+                }
+
+                cout << "matchVect: ";
+                for (int z=0; z<matchVect.size();z++){
+                    cout<<matchVect.at(z) << " ";
+                }
+                cout << endl;
+            }
+
+            // Insert the matchVect values into the guessMap
+            for (int j = 0; j < guessDupes.size(); j++) {
+                    newGuessMap.at(guessDupes.at(j)) = matchVect.at(j);
             }
         }
     }
@@ -136,11 +195,11 @@ void Guess::addToUsedLetters(usedLetters& used, char letter, int guessIndex, int
     used.map.push_back(checker);
 }
 
-Guess::duplicateLetters Guess::findDupCharLocation(string word, char letter) {
+vector<int>  Guess::findDupCharLocation(string word, char letter) {
     vector<int> charLocations;
     for(int i =0; i < word.size(); i++)
-        if(word[i] == letter)
-            charLocations.push_back(word[i]);
-
-    return {letter, charLocations};
+        if(word[i] == letter) {
+            charLocations.push_back(i);
+        }
+    return charLocations;
 }

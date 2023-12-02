@@ -22,16 +22,11 @@ class Guess {
             vector<int> indexAnswer; // index of answer that letter matched to
             vector<int> map; // the accuracy of the match
         };
-
-        struct duplicateLetters {
-            char letter;
-            vector<int> indexes;
-        };
     
     private:
         string convertToLowerCase(string word);
         void addToUsedLetters(usedLetters& used, char letter, int guessIndex, int answerIndex, int checker);
-        duplicateLetters findDupCharLocation(string word, char letter);
+        vector<int> findDupCharLocation(string word, char letter);
 };
 
 #endif
