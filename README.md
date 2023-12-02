@@ -29,15 +29,3 @@ eever   ++___               Additional dups: lower index yellow takes priority o
 # Debugging Lines
 - Set the answer to a certain word: uncomment main.cpp Line 111
 - Display the answer during game: uncomment Terdle.cpp Line 22
-
-# C++ Constructs
-1. If/Else statements in all source files
-2. Loops in all source files
-3. Functions in all source files
-4. Vectors in Guess.cpp
-5. Struct in Guess.cpp
-6. OOP in all source files
-7. Pointers are not used
-8. External files used in main.cpp
-9. Recursion: main.cpp menuRequest() 
-10. Exceptions: main.cpp loadWordList() 
