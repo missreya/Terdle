@@ -12,7 +12,7 @@ s#i0
 s#k0
 s#j0
 s#l0
-!119;g
+!134;g
 %\011Terdle.cpp
 %\011legal-words.txt
 %\011Guess.cpp
@@ -20,7 +20,8 @@ s#l0
 %\011Guess.h
 %\011Terdle.h
 %\011main.cpp
-!119;f
+%\011README.md
+!134;f
 %\011Terdle.cpp
 %\011legal-words.txt
 %\011Guess.cpp
@@ -28,3 +29,4 @@ s#l0
 %\011Guess.h
 %\011Terdle.h
 %\011main.cpp
+%\011README.md

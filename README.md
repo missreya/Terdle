@@ -11,9 +11,9 @@ Simply build and run this in your terminal... and let the fun begin!
 # Terdle Rules
 They are the same as Wordle rules. You have 6 guesses to figure out the 5 letter word.
 Your guesses must be valid words - these are the same valid words for Wordle.
-A letter guessed in the correct spot results in # (aka green in Wordle).
-A letter guessed in the wrong spot result in + (aka yellow in Wordle).
-A letter not in the answer at all results in _ (aka grey in Wordle).
+A correct letter guessed in the correct spot results in # (aka green in Wordle).
+A correct letter guessed in the wrong spot result in + (aka yellow in Wordle).
+A correct letter that is not in the answer results in _ (aka grey in Wordle).
 
 # Wordle Rules Regarding Duplicate Letters
 liege    is the answer
@@ -27,3 +27,15 @@ eever   ++___               If guess has additional dups, lower index yellow tak
 # Debugging Lines
 Set the answer to a certain word: uncomment main.cpp Line 111
 Display the answer during game: uncomment Terdle.cpp Line 22
+
+# C++ Constructs
+1. If/Else statements in all source files
+2. Loops in all source files
+3. Functions in all source files
+4. Vectors in Guess.cpp
+5. Struct in Guess.cpp
+6. OOP in all source files
+7. Pointers are not used
+8. External files used in main.cpp
+9. Recursion: main.cpp menuRequest() 
+10. Exceptions: main.cpp loadWordList() 
