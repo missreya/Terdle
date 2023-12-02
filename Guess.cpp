@@ -42,6 +42,7 @@ string Guess::RequestGuess(const vector<string> &legalWords) {
 Terdle::guessMap Guess::ProcessGuess(string newGuess, const string answer) {
     string newGuessMap;
     usedLetters used;
+    bool dupCheck = false;
     
     // Check if the guess is a perfect match to the answer
     if(strcmp(newGuess.c_str(), answer.c_str())==0) {
@@ -51,71 +52,76 @@ Terdle::guessMap Guess::ProcessGuess(string newGuess, const string answer) {
     else {
         for (int i = 0; i < newGuess.size(); i++) {
             int checker = 0;
-            int duplicateCheck = -1;
-            for (int j = 0; j < answer.size(); j++) {
-                // if matched letter and index, mark as (green) 
-                if ((newGuess.at(i) == answer.at(j)) && (i == j)) {
-                    checker = 2;
-                    // if letter has not been matched before, add to usedLetters map
-                    if (find(used.letter.begin(), used.letter.end(), newGuess.at(i)) == used.letter.end()) {
-                        addToUsedLetters(used, newGuess.at(i), i , j, checker);
-                    }
-                    // else letter has already been matched
-                    else {
-                        // locate the index of the previously matched letter on the usedLetters index 
-                        vector<char>::iterator iter = find(used.letter.begin(), used.letter.end(), newGuess.at(i));
-                        int indexUsed = iter - used.letter.begin();
-                        
-                        // locate the index on the solution that previous match had matched to
-                        int indexSolution = used.indexAnswer.at(indexUsed);
-                        int indexGuessed = used.indexGuess.at(indexUsed);
+            duplicateLetters answerDupes = findDupCharLocation(answer, newGuess.at(i));
+            duplicateLetters guessDupes = findDupCharLocation(newGuess, newGuess.at(i));
 
-                        // if previous matched letter was a match to this same index AND that match was yellow, change previous match to (grey)
-                        if ((j == indexSolution) && (newGuessMap.at(indexGuessed) = map[1].mapValue)){
-                            // change the guessMap for previous match to be grey 
-                            newGuessMap.at(indexGuessed) = map[0].mapValue;
+            // below works for if there are only max 2 of a letter for both answer and guess
+            if ((answerDupes.indexes.size() < 3) && (guessDupes.indexes.size() < 3)) {
+                for (int j = 0; j < answer.size(); j++) {
+                    // if matched letter and index, mark as (green) 
+                    if ((newGuess.at(i) == answer.at(j)) && (i == j)) {
+                        checker = 2;
+                        // if letter has not been matched before, add to usedLetters map
+                        if (find(used.letter.begin(), used.letter.end(), newGuess.at(i)) == used.letter.end()) {
+                            addToUsedLetters(used, newGuess.at(i), i , j, checker);
                         }
+                        // else letter has already been matched
+                        else {
+                            // locate the index of the previously matched letter on the usedLetters index 
+                            vector<char>::iterator iter = find(used.letter.begin(), used.letter.end(), newGuess.at(i));
+                            int indexUsed = iter - used.letter.begin();
+                            
+                            // locate the index on the solution that previous match had matched to
+                            int indexSolution = used.indexAnswer.at(indexUsed);
+                            int indexGuessed = used.indexGuess.at(indexUsed);
+
+                            // if previous matched letter was a match to this same index AND that match was yellow, change previous match to (grey)
+                            if ((j == indexSolution) && (newGuessMap.at(indexGuessed) = map[1].mapValue)){
+                                // change the guessMap for previous match to be grey 
+                                newGuessMap.at(indexGuessed) = map[0].mapValue;
+                            }
+                        }
+                        // Since letter has already been matched at this guess index, skip cycling through the rest of the solution 
+                        break;
                     }
-                    // Since letter has already been matched at this guess index, skip cycling through the rest of the solution 
-                    break;
+                    // if match letter but not index (yellow)
+                    else if ((newGuess.at(i) == answer.at(j)) && (i != j)) {
+                        checker = 1;
+                        // if letter has not been matched before, add this letter to the usedLetters map
+                        if (find(used.letter.begin(), used.letter.end(), newGuess.at(i)) == used.letter.end()) {
+                            addToUsedLetters(used, newGuess.at(i), i , j, checker);
+                        }
+                        // else letter has already been matched
+                        else {
+
+                            // locate the index of the previously matched letter on the usedLetters index 
+                            vector<char>::iterator iter = find(used.letter.begin(), used.letter.end(), newGuess.at(i));
+                            int indexUsed = iter - used.letter.begin();
+
+                            // locate the index on the solution that previous match had matched to
+                            int indexSolution = used.indexAnswer.at(indexUsed);
+
+                            // if current solution index is higher than the previous matched index, updated userLetters map to it 
+                            // that way, double letters in solution are accounted for
+                            if (j > indexSolution) {
+                                used.indexAnswer.at(indexUsed) = j;
+                                dupCheck = true;
+                            }
+                            // if previous matched letter was a match to this same index
+                            else if ((j == indexSolution) && (!dupCheck)){
+                                // change this letter's to be grey 
+                                checker = 0;
+                            }
+                        }
+                    }               
                 }
-                // if match letter but not index (yellow)
-                else if ((newGuess.at(i) == answer.at(j)) && (i != j)) {
-                    checker = 1;
-                    // if letter has not been matched before, add this letter to the usedLetters map
-                    if (find(used.letter.begin(), used.letter.end(), newGuess.at(i)) == used.letter.end()) {
-                        addToUsedLetters(used, newGuess.at(i), i , j, checker);
-                    }
-                    // else letter has already been matched
-                    else {
-
-                        // locate the index of the previously matched letter on the usedLetters index 
-                        vector<char>::iterator iter = find(used.letter.begin(), used.letter.end(), newGuess.at(i));
-                        int indexUsed = iter - used.letter.begin();
-
-                        // locate the index on the solution that previous match had matched to
-                        int indexSolution = used.indexAnswer.at(indexUsed);
-
-                        // if current solution index is higher than the previous matched index, updated userLetters map to it 
-                        // that way, double letters in solution are accounted for
-                        if (j > indexSolution) {
-                            used.indexAnswer.at(indexUsed) = j;
-                        }
-                        // if previous matched letter was a match to this same index
-                        else if (j == indexSolution){
-                            // change this letter's to be grey 
-                            checker = 0;
-                        }
-                        // else if this guess index was already a green match, keep as green
-                        // else if ((used.map.at(indexUsed == map[2].mapValue)) && i == indexSolution) {
-                        //     cout << "turn green\n";
-                        //     checker = 2;
-                        // }
-                    }
-                }               
+                // Add the map accuracy to the guess map
+                newGuessMap += map[checker].mapValue;
             }
-            // Add the map accuracy to the guess map
-            newGuessMap += map[checker].mapValue;
+            // the answer has more than 3 of this letter in it
+            else if ((answerDupes.indexes.size() > 2)) {
+                cout << "nope\n";
+            }
         }
     }
 
@@ -128,4 +134,13 @@ void Guess::addToUsedLetters(usedLetters& used, char letter, int guessIndex, int
     used.indexGuess.push_back(guessIndex);
     used.indexAnswer.push_back(answerIndex);
     used.map.push_back(checker);
+}
+
+Guess::duplicateLetters Guess::findDupCharLocation(string word, char letter) {
+    vector<int> charLocations;
+    for(int i =0; i < word.size(); i++)
+        if(word[i] == letter)
+            charLocations.push_back(word[i]);
+
+    return {letter, charLocations};
 }
