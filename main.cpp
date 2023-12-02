@@ -62,7 +62,7 @@ vector<string> loadWordList(string fileName) {
 void PrintMainMenu() {
     // Clears the screen - CSI[2J clears screen, CSI[H moves the cursor to top-left corner
     // Only works on Windows CMD or Powershell, not on JGrasp's terminal... sorry!
-    // std::cout << "\x1B[2J\x1B[H";
+    std::cout << "\x1B[2J\x1B[H";
 
     cout << "Welcome to T-E-R-D-L-E, the Wordle game played on a Terminal!\n";
     cout << "\tStart: enter s or start\n";
