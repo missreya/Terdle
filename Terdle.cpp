@@ -47,7 +47,7 @@ void Terdle::Play(const string solution, const vector<string>& legalList) {
 
 void Terdle::PrintGuesses() {
     // ClearScreen();
-    cout << "answer is: " << solution << endl;
+    cout << solution << "\t is the answer\n";
 
     cout << " - - - T-E-R-D-L-E - - - \n";
 
