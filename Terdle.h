@@ -1,12 +1,12 @@
-#ifndef WORDLEH
-#define WORDLEH
+#ifndef TERDLEH
+#define TERDLEH
 
 #include <string>
 #include <iostream>
 #include <vector>
 using namespace std;
 
-class Wordle {
+class Terdle {
     public:
         void Play(const string solution, const vector<string>& legalList);
         struct guessMap {

@@ -1,17 +1,17 @@
 #include <iostream>
 #include <string>
 
-#include "Wordle.h"
+#include "Terdle.h"
 #include "Guess.h"
 
 using namespace std;
 
-void Wordle::ClearScreen() {
+void Terdle::ClearScreen() {
     // CSI[2J clears screen, CSI[H moves the cursor to top-left corner
     std::cout << "\x1B[2J\x1B[H";
 }
 
-void Wordle::StartScreen() {
+void Terdle::StartScreen() {
     // ClearScreen();
     cout << " - - - T-E-R-D-L-E - - - \n";
 
@@ -20,7 +20,7 @@ void Wordle::StartScreen() {
     }
 }
 
-void Wordle::Play(const string solution, const vector<string>& legalList) {
+void Terdle::Play(const string solution, const vector<string>& legalList) {
     this->solution = solution;
     Guess myGuess;
     PrintGuesses();
@@ -45,8 +45,8 @@ void Wordle::Play(const string solution, const vector<string>& legalList) {
     return;
 }
 
-void Wordle::PrintGuesses() {
-    ClearScreen();
+void Terdle::PrintGuesses() {
+    // ClearScreen();
     cout << "answer is: " << solution << endl;
 
     cout << " - - - T-E-R-D-L-E - - - \n";

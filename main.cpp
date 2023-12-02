@@ -4,7 +4,7 @@
 #include <vector>
 #include <time.h>
 
-#include "Wordle.h"
+#include "Terdle.h"
 #include "Guess.h"
 using namespace std;
 
@@ -97,7 +97,8 @@ void menuRequest(vector<string> &solutionList, const vector<string> &legalList) 
     if (tolower(userMenuSelection.at(0)) == 's') {
         // Begin Game
         string newAnswer = SelectAnswer(solutionList);
-        Wordle myGame;
+        Terdle myGame;
+        // newAnswer = "neely"; //RENA DEBUGGING
         myGame.Play(newAnswer, legalList);
 
         // Check if user would like to play again
