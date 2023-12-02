@@ -60,8 +60,9 @@ vector<string> loadWordList(string fileName) {
 
 //Input: None | Process: Clears the terminal screen, then prints out the main manu | Output: Prints out main manu with options, no return
 void PrintMainMenu() {
-    // Essentially clears the screen - CSI[2J clears screen, CSI[H moves the cursor to top-left corner
-    std::cout << "\x1B[2J\x1B[H";
+    // Clears the screen - CSI[2J clears screen, CSI[H moves the cursor to top-left corner
+    // Only works on Windows CMD or Powershell, not on JGrasp's terminal... sorry!
+    // std::cout << "\x1B[2J\x1B[H";
 
     cout << "Welcome to T-E-R-D-L-E, the Wordle game played on a Terminal!\n";
     cout << "\tStart: enter s or start\n";
@@ -107,7 +108,7 @@ void menuRequest(vector<string> &solutionList, const vector<string> &legalList) 
         string newAnswer = SelectAnswer(solutionList);
         
         // FOR TESTING PURPOSES - you can manually set the answer here. 
-        newAnswer = "liege";
+        // newAnswer = "liege";
 
         Terdle myGame;
         myGame.Play(newAnswer, legalList);

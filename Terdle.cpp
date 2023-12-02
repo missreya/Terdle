@@ -15,10 +15,11 @@ void Terdle::ClearScreen() {
 // Input: None | Process: Prints TERDLE header border and the guesses so far with the guess map | Output: Prints game screen with guesses, no return
 void Terdle::PrintGuesses() {
     // Clear the screen everytime so that the guesses look like they populate the empty guesses
-    ClearScreen();
+    // Only works on Windows CMD or Powershell, not on JGrasp's terminal... sorry!
+    // ClearScreen();
 
     // FOR TESTING PURPOSES - you can display the answer here with every guess
-    cout << solution << "\t is the answer\n";
+    // cout << solution << "\t is the answer\n";
 
     cout << " - - - T-E-R-D-L-E - - - \n";
 
