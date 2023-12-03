@@ -13,13 +13,13 @@ class Terdle {
         struct guessMap {
             string guessWord;   // the guessed word in all caps
             string guessMap;    // the accuracy of the guessed word using symbols
-        }; //end guessMap struct
+        }; //RY- end guessMap struct
 
     private:
         void ClearScreen();
         void PrintGuesses();
         string solution; // the solution for the game
         vector<guessMap> guessList; // all of the guessed words for this game
-}; //end Terdle class
+}; //RY- end Terdle class
 
 #endif

@@ -5,7 +5,7 @@
 - 5 Letter Wordle List: https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93
 - List of Previous Worlde Solutions: https://github.com/vallleyyy/WordleDictionary
 
-# How To Play Terdle
+# How To Play
 - Simply build and run this in your terminal... and let the fun begin!
 
 # Terdle Rules
@@ -24,20 +24,14 @@ needy   _+#__               If one dup letter is an incorrect spot, it will be y
 neeze   __#_#               Additional dups: green matches take priority
 eerie   +__+#               Additional dups: lower index yellow takes priority over other yellows, but not over greens
 eever   ++___               Additional dups: lower index yellow takes priority over other yellows
-```
+
+# JGrasp vs VSCode Terminal
+- Unfortunately the ClearScreen() function only works on command prompt or powershell
+- If you are running this on JGrasp, you must comment out these lines of code:  
+- main.cpp line 65
+- Terdle.cpp line 19
 
 # Debugging Lines
 - Set the answer to a certain word: uncomment main.cpp Line 111
 - Display the answer during game: uncomment Terdle.cpp Line 22
-
-# C++ Constructs
-1. If/Else statements in all source files
-2. Loops in all source files
-3. Functions in all source files
-4. Vectors in Guess.cpp
-5. Struct in Guess.cpp
-6. OOP in all source files
-7. Pointers are not used
-8. External files used in main.cpp
-9. Recursion: main.cpp menuRequest() 
-10. Exceptions: main.cpp loadWordList() 
+```

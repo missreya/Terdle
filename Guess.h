@@ -14,11 +14,11 @@ class Guess {
         struct LetterMap {
             string mapKey;
             char mapValue;
-        }; //end LetterMap struct
+        }; //RY- end LetterMap struct
     
     private:
         string convertToLowerCase(string word);
         vector<int> findDupCharLocation(string word, char letter);
-}; //end Guess class
+}; //RY- end Guess class
 
 #endif
