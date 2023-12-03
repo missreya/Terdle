@@ -18,7 +18,7 @@ Guess::LetterMap map[3] = {
 string Guess::convertToLowerCase(string word) {
     for (int i = 0; i < word.size(); i++) {
         word.at(i) = tolower(word.at(i));
-    }
+    } //end for
     return word;
 } //end convertToLowerCase
 
@@ -46,7 +46,7 @@ string Guess::RequestGuess(const vector<string> &legalWords) {
         cin >> newGuess;
         newGuess = convertToLowerCase(newGuess);
         validWord = (find(legalWords.begin(), legalWords.end(), newGuess) != legalWords.end());
-    }
+    } // end while
 
     return newGuess;
 } // end RequestGuess
@@ -55,7 +55,7 @@ string Guess::RequestGuess(const vector<string> &legalWords) {
 // Input: The user's input guess and the game's answer.
 // Process: This analyzes each letter of the guess to develop the guessMap, which is the accuracy of the guess. This is done in 3 main parts. 
 //  (1) Checks if the guess == answer. If so, return with the fully correct guessmap
-//  (2) If not a fully corrrect answer, begin loop through guess's letters
+//  (2) If not a fully correct answer, begin loop through guess's letters
 //        (2-A) If this letter is a duplicate (appears multiple times in the guess or answer):
 //                Mark the guessMap position with a duplicate marker '?'. 
 //        (2-B) If this letter is not a duplicate, check if the letter exists in the answer:
@@ -76,7 +76,7 @@ Terdle::guessMap Guess::ProcessGuess(string newGuess, const string answer) {
 
         // Return to exit immediately
         return {newGuess, newGuessMap};
-    }
+    } //end if
     // (2) Otherwise, compare every letter to develop the guess-map 
     else {
         for (int i = 0; i < newGuess.size(); i++) {
@@ -88,7 +88,7 @@ Terdle::guessMap Guess::ProcessGuess(string newGuess, const string answer) {
             if (((answerDupes.size() != 1) || (guessDupes.size()) != 1)) {
                 newGuessMap += '?';
                 continue; // move onto next letter
-            }
+            } //end if
             // (2-B) Since letter does not have duplicates, we can simply check if the letter matches in solution
             else {
                 // Loop through the answer's letters
@@ -96,18 +96,18 @@ Terdle::guessMap Guess::ProcessGuess(string newGuess, const string answer) {
                     // if matched letter and index, mark as (green) 
                     if ((newGuess.at(i) == answer.at(j)) && (i == j)) {
                         accuracy = 2; //green
-                    }
+                    } //end if
                     // if match letter but not index (yellow)
                     else if ((newGuess.at(i) == answer.at(j)) && (i != j)) {
                         accuracy = 1; //yellow
-                    }
+                    } //end else if
                     //if it reaches end of this for loop, accuracy stays as 0 for grey
-                }               
-            }
+                } //end for           
+            } //end else 
             // Add the map accuracy to the guess map
             newGuessMap += map[accuracy].mapValue;
-        }
-    }
+        } //end for loop
+    } // end else
 
     // (3) Process Duplicates- Check for '?' duplicate markers in the guessMap - if so, process these duplicate letters
     for (int i = 0; i < newGuessMap.size(); i++) {
@@ -125,12 +125,12 @@ Terdle::guessMap Guess::ProcessGuess(string newGuess, const string answer) {
                 // if the guess's index is in the answer's index, then accuracy is green. 
                 if ((find(answerDupes.begin(), answerDupes.end(), guessDupes.at(j) ) != answerDupes.end())) {
                     matchVect.push_back(map[2].mapValue);
-                }
+                } //end if
                 // since guess's index is not in the answer's index, accuracy is yellow
                 else {
                     matchVect.push_back(map[1].mapValue);
-                }
-            }
+                } // end else
+            } //end else
 
             // (3-B) If guess dups is larger than answer dups, then convert excess guess yellow(s) to grey starting from the back
                 // ex. answer = liege (2 Es) and guess = eerie (3 Es)
@@ -154,7 +154,7 @@ Terdle::guessMap Guess::ProcessGuess(string newGuess, const string answer) {
                         } //end if 
                     } //end for
                 } // end if removeNum > 0
-            }
+            } //end if guessDupes size > answerDupes size
             // Insert the matchVect values into the guessMap
             for (int j = 0; j < guessDupes.size(); j++) {
                     newGuessMap.at(guessDupes.at(j)) = matchVect.at(j);
@@ -171,9 +171,10 @@ Terdle::guessMap Guess::ProcessGuess(string newGuess, const string answer) {
 // Output: Returns vector of character location indexes. 
 vector<int> Guess::findDupCharLocation(string word, char letter) {
     vector<int> charLocations;
-    for(int i =0; i < word.size(); i++)
+    for(int i =0; i < word.size(); i++) {
         if(word[i] == letter) {
             charLocations.push_back(i);
-        }
+        } // end if
+    } // end for
     return charLocations;
 } // end findDupCharLocation

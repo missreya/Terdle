@@ -41,19 +41,19 @@ vector<string> loadWordList(string fileName) {
 
         if (!file.is_open()) {
             throw fileName; // file was unable to be opened
-        }
+        } //end if
 
         while (file) {
             string word;
             file >> word;
             wordVect.push_back(word);
-        }
+        } //end while
     }
     // If exception is caught, program will terminate
     catch (string fileName) {
         cout << "ERROR: Could not open " << fileName << " - please ensure this file is in the directory.\nEXITING...";
         exit(0);
-    }
+    } // end catch
     
     return wordVect;
 } // end loadWordList
@@ -119,16 +119,16 @@ void menuRequest(vector<string> &solutionList, const vector<string> &legalList) 
 
         // Deallocate myGame after game is complete
         delete myGame;
-    } 
+    } //end if
     // User requests to quit - this returns to main() then terminates program
     else if (tolower(userMenuSelection.at(0)) == 'q') {
         cout << "Thanks for playing!\n";
         return;
-    } 
+    } //end else if
     //User input was not s or q... reprompt menu
     else {
         PrintMainMenu();
         cout << "Please input either s or q\n";
         menuRequest(solutionList, legalList);
-    }
+    } //end else
 } // end menuRequest

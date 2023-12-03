@@ -26,12 +26,12 @@ void Terdle::PrintGuesses() {
     // Print the guessed word and its gues map
     for (int i = 0; i < guessList.size(); i++) {
         cout << guessList.at(i).guessWord << "\t" << guessList.at(i).guessMap << endl;
-    }
+    } //end for
 
     // For the remaining guesses, print empty guesses
     for (int i = 0; i < 6 - guessList.size(); i++) {
         cout << "-----\n";
-    }
+    } // end for
 } //end PrintGuesses
 
 // Input: None | Process: Uses ASCII to manually "clear" the screen | Output: Screen is cleared, no return
@@ -57,14 +57,14 @@ void Terdle::Play(const string solution, const vector<string>& legalList) {
             cout << "* *     VICTORY     * *";
             cout << "\n* * * * * * * * * * * *\n";
             return;
-        }
-    }
+        } //end if
+    } //end while 
 
     // All 6 guesses were used before correct answer was solved - print loss screen. Exits normally to main::menuRequest
-    cout << "\n* * * * * * * * * * * *\n";
+    cout << "\n* * * * * * * * * * * * * * *\n";
     cout << "Sorry, better luck next time!\n";
-    cout << "The answer was " << solution << endl;
-    cout << "\n* * * * * * * * * * * *\n";
+    cout << "The answer was " << solution;
+    cout << "\n* * * * * * * * * * * * * * *\n";
 
     // Deallocate myGuess after guess is complete
     delete myGuess;    
