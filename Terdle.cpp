@@ -16,7 +16,7 @@ void Terdle::ClearScreen() {
 void Terdle::PrintGuesses() {
     // Clear the screen everytime so that the guesses look like they populate the empty guesses
     // Only works on Windows CMD or Powershell, not on JGrasp's terminal... sorry!
-    ClearScreen();
+    // ClearScreen();
 
     // FOR TESTING PURPOSES - you can display the answer here with every guess
     // cout << solution << "\t is the answer\n";
@@ -38,15 +38,15 @@ void Terdle::PrintGuesses() {
 void Terdle::Play(const string solution, const vector<string>& legalList) {
     // Set variables and instantiate Guess object. 
     this->solution = solution;
-    Guess myGuess;
+    Guess *myGuess = new Guess;
 
     //Print out the current guesses
     PrintGuesses();
 
     // Request a guess from the user if there are there are 5 or less guesses so far
     while ((guessList.size() <=5)) {
-        string userGuess = myGuess.RequestGuess(legalList);   
-        guessList.push_back(myGuess.ProcessGuess(userGuess, solution));
+        string userGuess = myGuess->RequestGuess(legalList);   
+        guessList.push_back(myGuess->ProcessGuess(userGuess, solution));
 
         // Print out the current guesses
         PrintGuesses();
@@ -65,4 +65,8 @@ void Terdle::Play(const string solution, const vector<string>& legalList) {
     cout << "Sorry, better luck next time!\n";
     cout << "The answer was " << solution << endl;
     cout << "\n* * * * * * * * * * * *\n";
+
+    // Deallocate myGuess after guess is complete
+    delete myGuess;    
+
 } //end Play
